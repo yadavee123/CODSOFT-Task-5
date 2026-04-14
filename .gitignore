@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+uploads/
+outputs/
+backend/models/*.pkl
+backend/models/*.csv
+.DS_Store

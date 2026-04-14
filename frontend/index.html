@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face AI Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Production-ready face intelligence workspace</p>
+          <h1>Face AI Studio</h1>
+          <p class="hero-text">
+            Detect faces in images, videos, and live webcam snapshots using both classical and deep learning pipelines,
+            then recognize registered people with FaceNet-powered embeddings.
+          </p>
+          <div class="hero-badges">
+            <span>Haar Cascade</span>
+            <span>MTCNN</span>
+            <span>FaceNet Recognition</span>
+            <span>Privacy Blur Mode</span>
+          </div>
+        </div>
+        <div class="hero-card glass-panel">
+          <p class="hero-card-title">Workflow</p>
+          <ol>
+            <li>Register known people from clear portraits.</li>
+            <li>Drop an image or video to detect and label faces.</li>
+            <li>Toggle privacy blur for safer sharing.</li>
+            <li>Optionally process webcam frames in real time.</li>
+          </ol>
+        </div>
+      </header>
+
+      <main class="main-grid">
+        <section class="glass-panel control-panel">
+          <div class="panel-header">
+            <h2>Controls</h2>
+            <p>Switch detectors, recognition, and privacy behavior without touching code.</p>
+          </div>
+
+          <div class="control-group">
+            <label for="detectorMethod">Detection Method</label>
+            <select id="detectorMethod">
+              <option value="mtcnn" selected>MTCNN (deep learning)</option>
+              <option value="haar">Haar Cascade (baseline)</option>
+            </select>
+          </div>
+
+          <div class="toggle-grid">
+            <label class="toggle-card">
+              <input type="checkbox" id="enableRecognition" checked />
+              <span>
+                <strong>Enable recognition</strong>
+                <small>Match faces against locally stored FaceNet embeddings.</small>
+              </span>
+            </label>
+            <label class="toggle-card accent">
+              <input type="checkbox" id="enableBlur" />
+              <span>
+                <strong>Privacy blur mode</strong>
+                <small>Blur every detected face while keeping labels visible.</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="panel-header compact">
+            <h2>Register a Face</h2>
+            <p>Add a person to the local recognition gallery.</p>
+          </div>
+
+          <form id="registerForm" class="stacked-form">
+            <input type="text" id="registerName" name="name" placeholder="Enter a name" required />
+            <label class="upload-mini" for="registerFile">
+              <input type="file" id="registerFile" name="file" accept="image/png,image/jpeg" required />
+              <span>Select portrait image</span>
+            </label>
+            <button type="submit" class="primary-button">Register Face</button>
+          </form>
+
+          <div id="registeredFaces" class="faces-list"></div>
+        </section>
+
+        <section class="glass-panel workspace-panel">
+          <div class="tabs">
+            <button class="tab active" data-tab="image">Image</button>
+            <button class="tab" data-tab="video">Video</button>
+            <button class="tab" data-tab="webcam">Webcam Bonus</button>
+          </div>
+
+          <div class="tab-content active" id="imageTab">
+            <div class="dropzone" data-type="image" id="imageDropzone">
+              <input type="file" id="imageFile" accept="image/png,image/jpeg" hidden />
+              <div>
+                <p class="dropzone-title">Drop an image here</p>
+                <p>Supports JPG and PNG. Or click to browse.</p>
+              </div>
+            </div>
+            <button class="primary-button" id="processImageButton">Process Image</button>
+          </div>
+
+          <div class="tab-content" id="videoTab">
+            <div class="dropzone" data-type="video" id="videoDropzone">
+              <input type="file" id="videoFile" accept="video/mp4,video/quicktime" hidden />
+              <div>
+                <p class="dropzone-title">Drop a video here</p>
+                <p>Supports MP4 and MOV. Processed video will be downloadable.</p>
+              </div>
+            </div>
+            <button class="primary-button" id="processVideoButton">Process Video</button>
+          </div>
+
+          <div class="tab-content webcam-layout" id="webcamTab">
+            <video id="webcamPreview" autoplay playsinline muted></video>
+            <div class="webcam-actions">
+              <button class="secondary-button" id="startWebcamButton">Start Webcam</button>
+              <button class="primary-button" id="captureWebcamButton">Analyze Current Frame</button>
+            </div>
+            <canvas id="webcamCanvas" hidden></canvas>
+          </div>
+
+          <div class="status-row">
+            <div id="statusPill" class="status-pill idle">Ready</div>
+            <div id="resultStats" class="result-stats"></div>
+          </div>
+        </section>
+
+        <aside class="glass-panel result-panel">
+          <div class="panel-header compact">
+            <h2>Results</h2>
+            <p>Preview processed media and download assets for submission or demos.</p>
+          </div>
+          <div id="resultPreview" class="result-preview empty">
+            <p>Your processed image, video, or webcam frame will appear here.</p>
+          </div>
+          <a id="downloadLink" class="download-link hidden" download>Download Result</a>
+          <div id="messageBox" class="message-box"></div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>

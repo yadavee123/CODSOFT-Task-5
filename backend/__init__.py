@@ -1,0 +1,1 @@
+"""Backend package for the Face AI application."""
